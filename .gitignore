@@ -1,18 +1,4 @@
-# Gradle
+.claude/
 .gradle/
 build/
-
-# IntelliJ IDEA
-.idea/
-*.iml
-
-# Eclipse
-.classpath
-.project
-.settings/
-
-# VS Code
-.vscode/
-
-# macOS
-.DS_Store
+*.class
