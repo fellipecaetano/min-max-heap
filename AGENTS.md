@@ -40,3 +40,6 @@ Avoid:
 - When asked to commit, make a best effort to commit everything, regardless of how many commits there should be.
 - If the commit message says two things (or more), it means the commit should probably be two commits (or more). In that case, create more than one commit.
 - At any point, there might be changes to the code base that you didn't have context of. If that confuses you when committing, ask instead of proactively restoring the changes to the state you know.
+
+# Markdown
+- Write prose paragraphs as a single line each (no hard-wrapping at a fixed column), to match typical GitHub README convention.
