@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MinMaxHeapTest {
-
     @Test
     void sortedAscending() {
         assertValid(new Integer[]{1, 2, 3, 4, 5, 6, 7});
