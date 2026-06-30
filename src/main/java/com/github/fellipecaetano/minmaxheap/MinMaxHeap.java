@@ -37,11 +37,27 @@ public class MinMaxHeap<T extends Comparable<T>> {
         return min;
     }
 
-    public T findMax() {
+    public T extractMax() {
         if (heap.length == 0) throw new NoSuchElementException();
-        if (heap.length == 1) return heap[0];
-        if (heap.length == 2) return heap[1];
-        return heap[1].compareTo(heap[2]) >= 0 ? heap[1] : heap[2];
+        int maxIndex = indexOfMax();
+        T max = heap[maxIndex];
+        heap[maxIndex] = heap[heap.length - 1];
+        heap = Arrays.copyOf(heap, heap.length - 1);
+        if (heap.length > 0) {
+            trickleDown(maxIndex);
+        }
+        return max;
+    }
+
+    public T findMax() {
+        return heap[indexOfMax()];
+    }
+
+    private int indexOfMax() {
+        if (heap.length == 0) throw new NoSuchElementException();
+        if (heap.length == 1) return 0;
+        if (heap.length == 2) return 1;
+        return heap[1].compareTo(heap[2]) >= 0 ? 1 : 2;
     }
 
     boolean isValid() {
