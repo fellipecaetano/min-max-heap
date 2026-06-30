@@ -67,7 +67,7 @@ public class MinMaxHeap<T extends Comparable<T>> {
         }
     }
 
-    private boolean isMinLevel(int index) {
+    private static boolean isMinLevel(int index) {
         return level(index) % 2 == 0;
     }
 

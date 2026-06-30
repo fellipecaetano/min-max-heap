@@ -60,7 +60,7 @@ class MinMaxHeapTest {
         assertValid(new String[]{"banana", "apple", "cherry", "date", "elderberry"});
     }
 
-    private <T extends Comparable<T>> void assertValid(T[] input) {
+    private static <T extends Comparable<T>> void assertValid(T[] input) {
         assertTrue(new MinMaxHeap<>(input).isValid());
     }
 }
