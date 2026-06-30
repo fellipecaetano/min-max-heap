@@ -2,7 +2,11 @@ package com.github.fellipecaetano.minmaxheap;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.NoSuchElementException;
 
 class MinMaxHeapTest {
     @Test
@@ -58,6 +62,53 @@ class MinMaxHeapTest {
     @Test
     void strings() {
         assertValid(new String[]{"banana", "apple", "cherry", "date", "elderberry"});
+    }
+
+    @Test
+    void extractMinThrowsWhenEmpty() {
+        assertThrows(NoSuchElementException.class,
+            () -> new MinMaxHeap<>(new Integer[]{}).extractMin());
+    }
+
+    @Test
+    void extractMinSingleElement() {
+        MinMaxHeap<Integer> heap = new MinMaxHeap<>(new Integer[]{42});
+        assertEquals(42, heap.extractMin());
+        assertEquals(0, heap.size());
+        assertThrows(NoSuchElementException.class, heap::extractMin);
+    }
+
+    @Test
+    void extractMinDecrementsSize() {
+        MinMaxHeap<Integer> heap = new MinMaxHeap<>(new Integer[]{3, 1, 4, 1, 5});
+        int sizeBefore = heap.size();
+        heap.extractMin();
+        assertEquals(sizeBefore - 1, heap.size());
+    }
+
+    @Test
+    void extractMinReturnsMinimum() {
+        MinMaxHeap<Integer> heap = new MinMaxHeap<>(new Integer[]{3, 1, 4, 1, 5, 9, 2, 6});
+        Integer expectedMin = heap.findMin();
+        assertEquals(expectedMin, heap.extractMin());
+    }
+
+    @Test
+    void extractMinLeavesHeapValid() {
+        MinMaxHeap<Integer> heap = new MinMaxHeap<>(new Integer[]{3, 1, 4, 1, 5, 9, 2, 6});
+        heap.extractMin();
+        assertTrue(heap.isValid());
+    }
+
+    @Test
+    void repeatedExtractionsAreSorted() {
+        MinMaxHeap<Integer> heap = new MinMaxHeap<>(new Integer[]{5, 3, 8, 1, 9, 2, 7});
+        int prev = heap.extractMin();
+        while (heap.size() > 0) {
+            int next = heap.extractMin();
+            assertTrue(prev <= next);
+            prev = next;
+        }
     }
 
     private static <T extends Comparable<T>> void assertValid(T[] input) {
