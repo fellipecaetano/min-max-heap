@@ -111,6 +111,53 @@ class MinMaxHeapTest {
         }
     }
 
+    @Test
+    void extractMaxThrowsWhenEmpty() {
+        assertThrows(NoSuchElementException.class,
+            () -> new MinMaxHeap<>(new Integer[]{}).extractMax());
+    }
+
+    @Test
+    void extractMaxSingleElement() {
+        MinMaxHeap<Integer> heap = new MinMaxHeap<>(new Integer[]{42});
+        assertEquals(42, heap.extractMax());
+        assertEquals(0, heap.size());
+        assertThrows(NoSuchElementException.class, heap::extractMax);
+    }
+
+    @Test
+    void extractMaxDecrementsSize() {
+        MinMaxHeap<Integer> heap = new MinMaxHeap<>(new Integer[]{3, 1, 4, 1, 5});
+        int sizeBefore = heap.size();
+        heap.extractMax();
+        assertEquals(sizeBefore - 1, heap.size());
+    }
+
+    @Test
+    void extractMaxReturnsMaximum() {
+        MinMaxHeap<Integer> heap = new MinMaxHeap<>(new Integer[]{3, 1, 4, 1, 5, 9, 2, 6});
+        Integer expectedMax = heap.findMax();
+        assertEquals(expectedMax, heap.extractMax());
+    }
+
+    @Test
+    void extractMaxLeavesHeapValid() {
+        MinMaxHeap<Integer> heap = new MinMaxHeap<>(new Integer[]{3, 1, 4, 1, 5, 9, 2, 6});
+        heap.extractMax();
+        assertTrue(heap.isValid());
+    }
+
+    @Test
+    void repeatedExtractMaxDescending() {
+        MinMaxHeap<Integer> heap = new MinMaxHeap<>(new Integer[]{5, 3, 8, 1, 9, 2, 7});
+        int prev = heap.extractMax();
+        while (heap.size() > 0) {
+            int next = heap.extractMax();
+            assertTrue(prev >= next);
+            prev = next;
+        }
+    }
+
     private static <T extends Comparable<T>> void assertValid(T[] input) {
         assertTrue(new MinMaxHeap<>(input).isValid());
     }
