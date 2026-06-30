@@ -36,6 +36,7 @@ Avoid:
 
 # Version Control
 - Always ask before you commit
+- Commit message subject: 50 characters max. Body: no length limit, but wrap lines at 72 characters.
 - When asked to commit, make a best effort to commit everything, regardless of how many commits there should be.
 - If the commit message says two things (or more), it means the commit should probably be two commits (or more). In that case, create more than one commit.
 - At any point, there might be changes to the code base that you didn't have context of. If that confuses you when committing, ask instead of proactively restoring the changes to the state you know.
