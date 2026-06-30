@@ -1,6 +1,7 @@
 package com.github.fellipecaetano.minmaxheap;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 public class MinMaxHeap<T extends Comparable<T>> {
@@ -16,8 +17,46 @@ public class MinMaxHeap<T extends Comparable<T>> {
         }
     }
 
-    public T[] getHeap() {
-        return heap;
+    public int size() {
+        return heap.length;
+    }
+
+    public T findMin() {
+        if (heap.length == 0) throw new NoSuchElementException();
+        return heap[0];
+    }
+
+    public T findMax() {
+        if (heap.length == 0) throw new NoSuchElementException();
+        if (heap.length == 1) return heap[0];
+        if (heap.length == 2) return heap[1];
+        return heap[1].compareTo(heap[2]) >= 0 ? heap[1] : heap[2];
+    }
+
+    boolean isValid() {
+        for (int i = 0; i < heap.length; i++) {
+            boolean minLevel = isMinLevel(i);
+            for (int d : allDescendants(i)) {
+                if (minLevel  && heap[i].compareTo(heap[d]) > 0) return false;
+                if (!minLevel && heap[i].compareTo(heap[d]) < 0) return false;
+            }
+        }
+        return true;
+    }
+
+    private int[] allDescendants(int i) {
+        int[] tmp = new int[heap.length];
+        int count = 0;
+        int[] queue = new int[heap.length];
+        int head = 0, tail = 0;
+        queue[tail++] = i;
+        while (head < tail) {
+            int cur = queue[head++];
+            int l = cur * 2 + 1, r = cur * 2 + 2;
+            if (l < heap.length) { tmp[count++] = l; queue[tail++] = l; }
+            if (r < heap.length) { tmp[count++] = r; queue[tail++] = r; }
+        }
+        return Arrays.copyOf(tmp, count);
     }
 
     private void trickleDown(int index) {
