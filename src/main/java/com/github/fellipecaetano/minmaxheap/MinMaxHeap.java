@@ -26,6 +26,17 @@ public class MinMaxHeap<T extends Comparable<T>> {
         return heap[0];
     }
 
+    public T extractMin() {
+        if (heap.length == 0) throw new NoSuchElementException();
+        T min = heap[0];
+        heap[0] = heap[heap.length - 1];
+        heap = Arrays.copyOf(heap, heap.length - 1);
+        if (heap.length > 0) {
+            trickleDown(0);
+        }
+        return min;
+    }
+
     public T findMax() {
         if (heap.length == 0) throw new NoSuchElementException();
         if (heap.length == 1) return heap[0];
@@ -42,21 +53,6 @@ public class MinMaxHeap<T extends Comparable<T>> {
             }
         }
         return true;
-    }
-
-    private int[] allDescendants(int i) {
-        int[] tmp = new int[heap.length];
-        int count = 0;
-        int[] queue = new int[heap.length];
-        int head = 0, tail = 0;
-        queue[tail++] = i;
-        while (head < tail) {
-            int cur = queue[head++];
-            int l = cur * 2 + 1, r = cur * 2 + 2;
-            if (l < heap.length) { tmp[count++] = l; queue[tail++] = l; }
-            if (r < heap.length) { tmp[count++] = r; queue[tail++] = r; }
-        }
-        return Arrays.copyOf(tmp, count);
     }
 
     private void trickleDown(int index) {
@@ -127,6 +123,21 @@ public class MinMaxHeap<T extends Comparable<T>> {
             }
         }
         return result;
+    }
+
+    private int[] allDescendants(int i) {
+        int[] tmp = new int[heap.length];
+        int count = 0;
+        int[] queue = new int[heap.length];
+        int head = 0, tail = 0;
+        queue[tail++] = i;
+        while (head < tail) {
+            int cur = queue[head++];
+            int l = cur * 2 + 1, r = cur * 2 + 2;
+            if (l < heap.length) { tmp[count++] = l; queue[tail++] = l; }
+            if (r < heap.length) { tmp[count++] = r; queue[tail++] = r; }
+        }
+        return Arrays.copyOf(tmp, count);
     }
 
     private static int level(int index) {
