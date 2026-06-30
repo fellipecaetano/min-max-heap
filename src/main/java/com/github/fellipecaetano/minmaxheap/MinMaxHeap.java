@@ -16,10 +16,6 @@ public class MinMaxHeap<T extends Comparable<T>> {
         }
     }
 
-    public void print() {
-        System.out.println(Arrays.toString(heap));
-    }
-
     public T[] getHeap() {
         return heap;
     }
